@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
     <script src="node_modules/react/dist/react.js"></script>
-    <!--<script src="node_modules/requirejs/require.js"></script>-->
+    <script src="node_modules/requirejs/require.js"></script>
     <script src="node_modules/react-dom/dist/react-dom.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
     <!--<script src="node_modules/babel-runtime/helpers/defaults.js"></script>
@@ -14,12 +14,94 @@
     -->
     <script src="node_modules/jquery/dist/jquery.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="node_modules/react-redux/dist/react-redux.js"></script>
   </head>
   <body>
+   <script type="text/babel" src="components/index.jsx"></script>
     <div id="example"></div>
-    <script type="text/babel">
+    <script type="text/babel">    
+    import { Provider } from 'react-redux';
+    var ButtonClicker = React.createClass({
+      getInitialState: function() {
+        return {initClick:parseInt(this.props.initClick)};
+      },
+      click:function(){
+        console.dir(this.state);
+        this.setState({
+          initClick: this.state.initClick + 1
+        });
+      }
+      ,render: function() {
+        return (
+          <div className="buttonClicker">            
+            <button className="btn btn-success" type="button" onClick={this.click}>Click me</button>            
+          </div>
+        );
+      }
+    });
+    var ButtonClickerView = React.createClass({
+        getInitialState: function() {
+        return {initClick:this.props.initClick};
+      },
+      render: function() {
+        console.dir(this.state);
+        return (
+          <div className="buttonClickerView">            
+            <h3>{this.state.initClick}</h3>      
+          </div>
+        );
+      }
+    });
+    var ButtonClickerModule = React.createClass({
+      render: function() {
+        return (
+          <div className="map">
+            <div className="row">
+              <div className="col-xs-3"></div>
+              <div className="col-xs-6">
+                <ButtonClicker initClick={this.props.initClick}/>
+              </div>
+              <div className="col-xs-3"></div>
+            </div>
+            <div className="row">
+              <div className="col-xs-3"></div>
+              <div className="col-xs-6">
+                <ButtonClickerView initClick={this.props.initClick} />
+              </div>
+              <div className="col-xs-3"></div>
+            </div>
+          </div>
+        );
+      }
+    });
+    var Map = React.createClass({
+      render: function() {
+        return (
+          <div className="map">
+            <div className="row">
+              <div className="col-xs-6">
+              XXX
+              </div>
+            </div>
+          </div>
+        );
+      }
+    });
+
+    var IndexPage = React.createClass({
+      render: function() {
+        return (
+          <div className="indexPage">
+          <ButtonClickerModule initClick="0"/>
+          <div style={{display:"none"}}>
+             <Map latitiude="54.51778" longitiute="18.54289" zoom="15"/>
+          </div>
+          </div>
+        );
+      }
+    });
       ReactDOM.render(
-        <h1>Hello, world!</h1>,
+        <IndexPage />,
         document.getElementById('example')
       );
     </script>
